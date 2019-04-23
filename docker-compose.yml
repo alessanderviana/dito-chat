@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+
+  redis:
+    image: redis:3.2.5-alpine
+    ports:
+      - 6379:6379
+
+  backend:
+    image: ale55ander/backend:1.4
+    ports:
+      - 8080:8080
+
+  frontend:
+    image: ale55ander/frontend:1.4
+    ports:
+      - 3000:3000
