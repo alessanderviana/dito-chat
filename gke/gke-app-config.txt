@@ -1,7 +1,26 @@
 
 kubectl create ns production
 
-kubectl --namespace=production apply -f gke/k8s/production
-kubectl --namespace=production apply -f gke/k8s/canary
-kubectl --namespace=production apply -f gke/k8s/services
+kubectl --namespace=production apply -f gke/k8s/production && kubectl --namespace=production apply -f gke/k8s/canary && kubectl --namespace=production apply -f gke/k8s/services
+
+
+
+pods/inject/envars.yaml 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envar-demo
+  labels:
+    purpose: demonstrate-envars
+spec:
+  containers:
+  - name: envar-demo-container
+    image: gcr.io/google-samples/node-hello:1.0
+    env:
+    - name: DEMO_GREETING
+      value: "Hello from the environment"
+    - name: DEMO_FAREWELL
+      value: "Such a sweet sorrow"
+
 
