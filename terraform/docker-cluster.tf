@@ -28,14 +28,15 @@ provider "google" {
 }
 
 // Linux instance - Ubuntu 16.04
-resource "google_compute_instance" "docker-cluster" {
+resource "google_compute_instance" "kube-cluster" {
  count = 1
- name         = "docker-cluster-${count.index + 1}"
- machine_type = "g1-small"  # 1.7 GB RAM
+ name         = "kube-cluster-${count.index + 1}"
+ machine_type = "n1-standard-2"  # 7.5 GB RAM
  # machine_type = "n1-standard-1"  # 3.75 GB RAM
  zone         = "${var.region}-b"
+ allow_stopping_for_update = true
 
- tags = [ "docker-cluster-${count.index + 1}" ]
+ tags = [ "kube-cluster-${count.index + 1}" ]
 
  boot_disk {
    initialize_params {
@@ -52,23 +53,21 @@ resource "google_compute_instance" "docker-cluster" {
    # *****************************************************************************************************
  }
 
+ # provisioner "local-exec" {
+ #     command = "gcloud compute scp ../docker-compose.yml ${var.user}@${google_compute_instance.kube-cluster.name}:~/ --zone=${var.region}-b --ssh-key-file=${file(${var.priv_key})}"
+ #   }
+
  metadata {
    ssh-keys = "${var.user}:${file("${var.pub_key}")}"
  }
 
-metadata_startup_script = "curl -fsSL https://get.docker.com | sh && usermod -aG docker ubuntu"
+metadata_startup_script = "${file("startup-script.sh")}"
 
-#  provisioner "file" {
-#    connection {
-#      type = "ssh"
-#      user = "${var.user}"
-#      private_key = "${file("${var.priv_key}")}"
-#      agent = false
-#    }
-#
-#    source      = "salt"
-#    destination = "/srv/"
-# }
+# sudo kubeadm config images pull
+# sudo kubeadm init
+# # Cria o wave-net pod
+# kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+# kubectl get pods -n kube-system
 
  # provisioner "remote-exec" {
  #    connection {
