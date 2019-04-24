@@ -1,0 +1,7 @@
+
+kubectl create ns production
+
+kubectl --namespace=production apply -f gke/k8s/production
+kubectl --namespace=production apply -f gke/k8s/canary
+kubectl --namespace=production apply -f gke/k8s/services
+

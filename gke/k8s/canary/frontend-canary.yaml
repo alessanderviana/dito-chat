@@ -15,20 +15,20 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: gceme-frontend-canary
+  name: chat-frontend-canary
 spec:
   replicas:
   template:
     metadata:
       name: frontend
       labels:
-        app: gceme
+        app: chat
         role: frontend
         env: canary
     spec:
       containers:
       - name: frontend
-        image: gcr.io/cloud-solutions-images/gceme:1.0.0
+        image: ale55ander/frontend:1.4
         resources:
           limits:
             memory: "500Mi"
@@ -36,9 +36,9 @@ spec:
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
-            path: /healthz
-            port: 80
-        command: ["sh", "-c", "app -frontend=true -backend-service=http://gceme-backend:8080 -port=80"]
+            path: /frontend
+            port: 3000
+        command: ["REACT_APP_BACKEND_WS=ws://localhost:8080", "REACT_APP_BACKEND_URL=http://localhost:8080", "npm", "start"]
         ports:
         - name: frontend
-          containerPort: 80
+          containerPort: 3000

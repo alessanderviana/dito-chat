@@ -15,20 +15,20 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: gceme-backend-canary
+  name: chat-backend-canary
 spec:
   replicas: 1
   template:
     metadata:
       name: backend
       labels:
-        app: gceme
+        app: chat
         role: backend
         env: canary
     spec:
       containers:
       - name: backend
-        image: gcr.io/cloud-solutions-images/gceme:1.0.0
+        image: ale55ander/backend:1.4
         resources:
           limits:
             memory: "500Mi"
@@ -36,9 +36,9 @@ spec:
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
-            path: /healthz
+            path: /backend
             port: 8080
-        command: ["sh", "-c", "app -port=8080"]
+        command: ["ALLOWED_ORIGIN=http://localhost:3000", "REDIS_ADDR=localhost:6379", "backend"]
         ports:
         - name: backend
           containerPort: 8080

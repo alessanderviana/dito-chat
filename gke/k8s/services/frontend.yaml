@@ -15,14 +15,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: gceme-frontend
+  name: chat-frontend
 spec:
   type: LoadBalancer
   ports:
   - name: http
-    port: 80
-    targetPort: 80
+    port: 3000
+    targetPort: 3000
     protocol: TCP
   selector:
-    app: gceme
+    app: chat
     role: frontend
