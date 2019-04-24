@@ -41,7 +41,6 @@ spec:
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
-            path: /backend
             port: 8080
         command: ["backend"]
         ports:
