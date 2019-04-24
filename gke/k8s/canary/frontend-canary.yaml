@@ -41,7 +41,6 @@ spec:
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
-            path: /frontend
             port: 3000
         command: ["npm", "start"]
         ports:
