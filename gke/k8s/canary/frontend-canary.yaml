@@ -29,6 +29,11 @@ spec:
       containers:
       - name: frontend
         image: ale55ander/frontend:1.4
+        env:
+          - name: REACT_APP_BACKEND_WS
+            value: "ws://localhost:8080"
+          - name: REACT_APP_BACKEND_URL
+            value: "http://localhost:8080"
         resources:
           limits:
             memory: "500Mi"
@@ -38,7 +43,7 @@ spec:
           httpGet:
             path: /frontend
             port: 3000
-        command: ["REACT_APP_BACKEND_WS=ws://localhost:8080", "REACT_APP_BACKEND_URL=http://localhost:8080", "npm", "start"]
+        command: ["npm", "start"]
         ports:
         - name: frontend
           containerPort: 3000

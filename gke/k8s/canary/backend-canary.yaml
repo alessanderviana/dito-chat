@@ -43,7 +43,7 @@ spec:
           httpGet:
             path: /backend
             port: 8080
-        command: ["ALLOWED_ORIGIN=http://localhost:3000", "REDIS_ADDR=localhost:6379", "backend"]
+        command: ["backend"]
         ports:
         - name: backend
           containerPort: 8080
