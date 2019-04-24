@@ -6,7 +6,8 @@ spec:
   ports:
     - port: 6379
       name: redis
-  clusterIP: None
+      targetPort: 6379
+      protocol: TCP
   selector:
     app: redis
 ---
