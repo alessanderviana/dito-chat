@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# kubeadm init
+
 # Configure the current user
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -10,3 +12,8 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 
 # Bash completion
 echo "source <(kubectl completion bash)" >> .bashrc
+
+# Print Master token
+echo -e "\n####################################################"
+kubeadm token create --print-join-command
+echo -e "####################################################\n\n"
