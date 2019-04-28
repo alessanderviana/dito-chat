@@ -35,4 +35,7 @@ metadata_startup_script = "${file("startup-script.sh")}"
 # kubectl get pods -n kube-system
 # kubeadm token create --print-join-command
 
+# GutHub token
+# 706272c8197b402d6e1d270a6be2ea08b1e9a1fd
+
 }
