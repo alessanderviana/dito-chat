@@ -1,7 +1,0 @@
-kubernetes:latest
-workflow-job:latest
-workflow-aggregator:latest
-credentials-binding:latest
-git:latest
-greenballs:latest
-
