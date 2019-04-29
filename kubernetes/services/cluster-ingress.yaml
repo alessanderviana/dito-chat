@@ -1,0 +1,8 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cluster-ingress
+spec:
+  backend:
+    serviceName: chat-frontend
+    servicePort: 3000
