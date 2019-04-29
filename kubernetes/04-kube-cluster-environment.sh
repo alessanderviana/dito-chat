@@ -4,8 +4,7 @@
 kubectl create ns production
 
 # Create the redis pod
-kubectl create -f kubernetes/redis
-kubectl port-forward redis-0 6379:6379 &
+kubectl --namespace=production create -f kubernetes/redis/redis.yaml
 
 # Create the production deployments
 kubectl --namespace=production apply -f kubernetes/production
