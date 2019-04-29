@@ -42,7 +42,7 @@ We have 2 main branches in this repository: the main and the canary. We also hav
 
 In kubernetes, we have 2 deployments spaces in the production namespace: production and canary.
 
-![alt text](https://drive.google.com/open?id=10cht8fUnsokoZmsooAucC_H2p8WzI9_A)
+![jenkins-main-canary](https://drive.google.com/open?id=10cht8fUnsokoZmsooAucC_H2p8WzI9_A)
 
 In Jenkins, we created a Multi branch pipeline, that look up for changes on the repository each 2 minutes.
 Any change (git push) will trigger a pipeline process, conducted by the Jenkinsfile.
