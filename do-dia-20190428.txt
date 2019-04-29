@@ -1,0 +1,15 @@
+
+kubectl delete configmap redis
+kubectl delete svc redis
+kubectl delete statefulset redis
+
+
+REDIS_C_IP=$( kubectl get svc | grep redis | awk '{ print $3 }' )
+
+BACK_C_IP=$( kubectl get svc -n production | grep backend | awk '{ print $3 }' )
+
+NODE_IP=$( ifconfig ens4 | grep 'inet addr' | awk -F':' '{ print $2 }' | awk '{ print $1 }' )
+BACK_NODE_PORT=$( kubectl -n production describe svc $( kubectl -n production get svc | grep backend | awk '{ print $1 }' ) | grep 'NodePort:' | awk '{ print $3 }' | awk -F'/' '{ print $1 }' )
+
+FRONT_C_IP=$( kubectl get svc -n production | grep frontend | awk '{ print $3 }' )
+
