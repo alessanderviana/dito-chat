@@ -2,26 +2,37 @@
 
 pipeline {
 
-    agent any
+    agent none
 
     stages {
         stage('Checkout') {
+            agent any
             steps {
                 echo 'Checkout code ...'
                 checkout scm
             }
         }
         stage('Test') {
+            agent any
             steps {
                 echo 'Testing frontend ...'
+                sh '''
+                ls -l
                 cd frontend
                 npm test
+                '''
             }
         }
         stage('Build') {
             steps {
                 echo 'Building frontend ...'
-                sh 'docker build --tag ale55ander/frontend:latest'
+                agent {
+                    // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
+                    dockerfile {
+                        dir 'frontend'
+                        additionalBuildArgs  '--tag ale55ander/frontend:latest'
+                    }
+                }
             }
         }
     }
