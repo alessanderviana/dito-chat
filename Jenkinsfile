@@ -25,9 +25,9 @@ pipeline {
             }
         }
         stage('Build') {
-            steps {
-                echo 'Building frontend ...'
-                agent {
+            agent {
+                steps {
+                    echo 'Building frontend ...'
                     // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
                     dockerfile {
                         dir 'frontend'
