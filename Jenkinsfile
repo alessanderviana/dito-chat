@@ -17,11 +17,10 @@ pipeline {
             agent any
             steps {
                 echo 'Testing frontend ...'
-                sh '''
-                pwd && ls -l
-                cd frontend
-                npm test
-                '''
+                sh 'pwd && ls -l'
+                sh 'npm install'
+                sh 'cd frontend'
+                sh 'npm test'
             }
         }
     }
