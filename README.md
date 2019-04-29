@@ -1,25 +1,30 @@
 # Dito Chat Pipeline to kubernetes
 
-As tecnologias utilizadas são:
+The technologies used are:
  - Google Cloud,
  - Terraform,
  - Bash script,
  - Docker,
  - Kubernetes,
- - Jenkins,
- - Helm
+ - Helm,
+ - Jenkins
 
-Terraform e Bash
-----------------
-O Terraform + o Bash script foram utilizados para provisionar as instâncias na nuvem do Google. Estas instâncias, quando terminam o startup, já estão prontas para o uso, com Docker e Kubernetes instalados.
-Dentro destas instâncias, temos que executar mais alguns scripts para: A) configuração inicial do cluster, B) instalação do Helm, C) criação do pod do Jenkins (utilizando o Helm) e D) configuração dos ambientes da aplicação (namespace e os deployments production e canary).
+
+Google Cloud
+------------
+The Google Cloud Platform was the choice for the test environment, because beyond another factors I think it's more simple to use and the instances startup is more faster.
+
+Terraform and Bash
+------------------
+Terraform + Bash scripts were used to provisione Google cloud instances. These instances when finish the startup, are already ready to use, with Docker and Kubernetes installed.
+Inside these instances we have to run some more scripts to: A) initial cluster configuration, B) Helm installation, C) pod jenkins creation (using Helm) and D) app environment configuration (namespace and the production / canary deployments).
 
 Docker
 ------
-O Docker, que dispensa comentários, foi utilizado para "conteinerizar" as aplicações (frontend, backend e redis).
+The Docker we've utilized to "containerizar" the apps (frontend, backend and redis), is the master in the category.
 
 Kubernetes
 ----------
-O kubernetes é disparado o melhor orquestrador de conteiners da atualidade, e também tem a vantagem de ser open source.
+The kubernetes is, no doubt, the best container orquestrator nowadays, and also it has an advantage: it is open source.
 
 Just a simple chat app built with React, Go, Websockets and Redis.
