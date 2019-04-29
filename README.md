@@ -7,7 +7,8 @@ The technologies used are:
  - Docker,
  - Kubernetes,
  - Helm,
- - Jenkins
+ - Jenkins,
+ - Canary release strategy
 
 
 Google Cloud
@@ -46,4 +47,4 @@ Any change (git push) will trigger a pipeline process, conducted by the Jenkinsf
 
 When the changes are made in canary branch, the delivery will be made in the canary deployment space of kubernetes. When the changes go to the main branch, the pipeline delivers straight to production deployment space of kubernetes.
 
-The canary / production deployment strategy is more used when the tests process isn't much well defined. The production release is delivered first in the canary deployment space that receives a percetual of the real app access traffic. After verify that app is 100% functional and no problems, the delivery is made in the real production deployment space.
+The canary / production deployment strategy is more used when the tests process isn't much well defined. The production release is delivered first in the canary deployment space that receives a percetual of the real app access traffic (for a subset of users). After verify that app is 100% functional and no problems, the delivery is made in the real production deployment space.
