@@ -16,12 +16,12 @@ The Google Cloud Platform was the choice for the test environment, because beyon
 
 Terraform and Bash
 ------------------
-Terraform + Bash scripts were used to provisione Google cloud instances. These instances when finish the startup, are already ready to use, with Docker and Kubernetes installed.
+Terraform + Bash scripts were used to provisione Google Cloud instances. These instances when finish the startup, are already ready to use, with Docker and Kubernetes installed.
 Inside these instances we have to run some more scripts to: A) initial cluster configuration, B) Helm installation, C) pod jenkins creation (using Helm) and D) app environment configuration (namespace and the production / canary deployments).
 
 Docker
 ------
-The Docker we've utilized to "containerizar" the apps (frontend, backend and redis), is the master in the category.
+The Docker we've utilized to "containerize" the apps (frontend, backend and redis), is the master in the category.
 
 Kubernetes
 ----------
