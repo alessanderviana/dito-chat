@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo 'Testing frontend ...'
                 sh '''
-                ls -l
+                pwd && ls -l
                 cd frontend
                 npm test
                 '''
