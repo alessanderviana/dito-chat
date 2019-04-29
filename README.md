@@ -27,4 +27,10 @@ Kubernetes
 ----------
 The kubernetes is, no doubt, the best container orquestrator nowadays, and also it has an advantage: it is open source.
 
-Just a simple chat app built with React, Go, Websockets and Redis.
+Helm
+----
+Helm is a kind of kubernetes package manager and makes easy to install a lot of things inside kubernetes.
+
+Jenkins
+-------
+Jenkins is the second CI/CD tool most used, it has some disadvantages comparing to first place, as the need of a host to be installed (or container), but its big advantage is, it's open source.
