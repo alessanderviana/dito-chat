@@ -20,6 +20,7 @@ pipeline {
                 sh 'pwd ; ls -l'
                 sh 'npm install'
             }
+        }
         stage('Test') {
             agent any
             steps {
