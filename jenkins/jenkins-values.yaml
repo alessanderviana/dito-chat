@@ -21,16 +21,16 @@ master:
   servicePort: 8181
   serviceType: NodePort
   nodePort: 32000
-agent:
-  enabled: true
-  image: jenkins/jnlp-slave
-  resources:
-    requests:
-      cpu: "200m"
-      memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "256Mi"
+# agent:
+#   enabled: true
+#   image: jenkins/jnlp-slave
+#   resources:
+#     requests:
+#       cpu: "200m"
+#       memory: "256Mi"
+#     limits:
+#       cpu: "200m"
+#       memory: "256Mi"
 persistence:
   enabled: true
   existingClaim: jenkins-pvc
