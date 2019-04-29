@@ -34,3 +34,10 @@ Helm is a kind of kubernetes package manager and makes easy to install a lot of 
 Jenkins
 -------
 Jenkins is the second CI/CD tool most used, it has some disadvantages comparing to first place, as the need of a host to be installed (or container), but its big advantage is, it's open source.
+
+How it works
+==============
+We have 2 main branches in this repository: main and canary. We also have a Jenkinsfile in the root of repository, in each branch.
+In kubernetes, we have 2 deployments spaces in the production namespace: production and canary.
+In Jenkins, we have a Multi branch pipeline configured, that look up for changes on the branches each 2 minutes.
+Any change (git push) in the repo, will trigger a pipeline process.
