@@ -2,9 +2,7 @@
 
 pipeline {
 
-    agent none
-
-    stages {
+    node('master'){
         stage('Git Checkout') {
             agent any
             steps {
@@ -24,15 +22,13 @@ pipeline {
             }
         }
         stage('Frontend test') {
-            node {
-                echo 'Testing frontend ...'
-                sh '''
-                pwd
-                ls -l
-                '''
-                docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
-                    sh 'npm run /frontend'
-                }
+            echo 'Testing frontend ...'
+            sh '''
+            pwd
+            ls -l
+            '''
+            docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
+                sh 'npm run /frontend'
             }
         }
     }
