@@ -3,7 +3,6 @@
 pipeline {
 
     agent none
-    tools {nodejs "node"}
 
     stages {
         stage('Git Checkout') {
@@ -13,20 +12,32 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Node dependencies') {
-            agent any
+        stage('Build frontend') {
             steps {
-                echo 'Installing ...'
-                sh 'pwd ; ls -l'
-                sh 'npm install'
+                echo 'Building frontend ...'
+                agent {
+                    dockerfile {
+                        dir 'frontend'
+                        additionalBuildArgs  '--tag ale55ander/frontend:latest'
+                    }
+                }
             }
         }
-        stage('Test') {
+        stage('Pre test') {
             agent any
             steps {
                 echo 'Testing frontend ...'
-                sh 'cd frontend'
-                sh 'npm test'
+                sh '''
+                pwd
+                ls -l
+                '''
+            }
+        }
+        stage('Frontend test') {
+            node {
+                docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
+                    sh 'npm run /frontend'
+                }
             }
         }
     }
