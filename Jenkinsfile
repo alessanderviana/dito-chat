@@ -20,7 +20,7 @@ pipeline {
                 }
             }
         }
-        stage('Frontend test') {
+        /* stage('Frontend test') {
             steps {
                 echo 'Testing frontend ...'
                 sh '''
@@ -33,6 +33,6 @@ pipeline {
                     }
                 }
             }
-        }
+        } */
     }
 }
