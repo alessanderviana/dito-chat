@@ -2,9 +2,10 @@
 
 pipeline {
 
+    agent any
+
     stages{
         stage('Git Checkout') {
-            agent any
             steps {
                 echo 'Checkout code ...'
                 checkout scm
@@ -22,13 +23,15 @@ pipeline {
             }
         }
         stage('Frontend test') {
-            echo 'Testing frontend ...'
-            sh '''
-            pwd
-            ls -l
-            '''
-            docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
-                sh 'npm run /frontend'
+            steps {
+                echo 'Testing frontend ...'
+                sh '''
+                pwd
+                ls -l
+                '''
+                docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
+                    sh 'npm run /frontend'
+                }
             }
         }
     }
