@@ -12,11 +12,9 @@ pipeline {
         stage('Build frontend') {
             steps {
                 echo 'Building frontend ...'
-                agent {
-                    dockerfile {
-                        dir 'frontend'
-                        additionalBuildArgs  '--tag ale55ander/frontend:latest'
-                    }
+                dockerfile {
+                    dir 'frontend'
+                    additionalBuildArgs  '--tag ale55ander/frontend:latest'
                 }
             }
         }
