@@ -29,8 +29,10 @@ pipeline {
                 pwd
                 ls -l
                 '''
-                docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
-                    sh 'npm run /frontend'
+                node('master') {
+                    docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
+                        sh 'npm run /frontend'
+                    }
                 }
             }
         }
