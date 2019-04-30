@@ -45,10 +45,10 @@ In kubernetes, we have 2 deployments spaces in the production namespace: product
 ![jenkins-main-canary](pictures/dito-chat-main-canary.png)
 
 In Jenkins, we created a Multi branch pipeline, that look up for changes on the repository each 2 minutes.
-Any change (git push) will trigger a pipeline process, conducted by the Jenkinsfile.
+Any change (git push) will trigger a pipeline process, whose flow is conducted by the Jenkinsfile.
 
 When the changes are made in canary branch, the delivery will be made in the canary deployment space of kubernetes. When the changes go to the main branch, the pipeline delivers straight to production deployment space of kubernetes.
 
 ![canary-release-strategy](pictures/canary-release-strategy.png)
 
-The canary / production deployment strategy is more used when the tests process isn't much well defined. The production release is delivered first in the canary deployment space that receives a percetual of the real app access traffic (for a subset of users). After verify that app is 100% functional and no problems, the delivery is made in the real production deployment space.
+The canary / production deployment strategy is more used when the tests process isn't much well defined. The production release is delivered first in the canary deployment space that receives a percentual of the real app access traffic (for a subset of users). After verify that app is 100% functional and no problems, the delivery is made in the real production deployment space.
