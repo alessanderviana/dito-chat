@@ -1,6 +1,7 @@
 node {
 
     stage('Build frontend') {
+        sh 'ls -l'
         dockerfile {
             dir 'frontend'
             additionalBuildArgs  '--tag ale55ander/frontend:latest'
