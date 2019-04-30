@@ -23,7 +23,7 @@ pipeline {
                 }
             }
         }
-        stage('Pre test') {
+        stage('Frontend test') {
             agent any
             steps {
                 echo 'Testing frontend ...'
@@ -31,12 +31,10 @@ pipeline {
                 pwd
                 ls -l
                 '''
-            }
-        }
-        stage('Frontend test') {
-            node {
-                docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
-                    sh 'npm run /frontend'
+                node {
+                    docker.image('ale55ander/frontend:latest').withRun('-p 3000:3000') {
+                        sh 'npm run /frontend'
+                    }
                 }
             }
         }
