@@ -24,8 +24,7 @@ pipeline {
             }
         }
         stage('Frontend test') {
-            agent any
-            steps {
+            node {
                 echo 'Testing frontend ...'
                 sh '''
                 pwd
