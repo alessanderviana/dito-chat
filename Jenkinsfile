@@ -3,7 +3,7 @@ node {
 
     stage('Build frontend') {
         sh 'ls -l'
-        app = docker.build([-f frontend/Dockerfile])
+        /* app = docker.build([-f frontend/Dockerfile]) */
 
     }
     stage('Test frontend') {
