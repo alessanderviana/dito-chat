@@ -2,8 +2,8 @@ node {
     def app
 
     stage('Build frontend') {
-        sh 'ls -l'
-        /* app = docker.build([-f frontend/Dockerfile]) */
+        sh 'pwd && ls -l'
+        app = docker.build()
 
     }
     stage('Test frontend') {
