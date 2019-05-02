@@ -21,31 +21,36 @@ master:
   servicePort: 8181
   serviceType: NodePort
   nodePort: 32000
-  # volumes:
-  #   type: HostPath
-  #   volumeName: docker-sock
-  #   hostPath: /var/run/docker.sock
-  #   mountPath: /var/run/docker.sock
-agent:
-  enabled: true
-  image: jenkins/jnlp-slave
   volumes:
     - type: HostPath
-      volumeName: docker-sock
+      volumeName: dockersock
       hostPath: /var/run/docker.sock
       mountPath: /var/run/docker.sock
   volumes:
     - type: HostPath
-      volumeName: docker-bin
+      volumeName: dockerbin
       hostPath: /usr/bin/docker
       mountPath: /usr/bin/docker
-  resources:
-    requests:
-      cpu: "200m"
-      memory: "256Mi"
-    limits:
-      cpu: "600m"
-      memory: "768Mi"
+# agent:
+#   enabled: true
+#   image: jenkins/jnlp-slave
+#   volumes:
+#     - type: HostPath
+#       volumeName: dockersock
+#       hostPath: /var/run/docker.sock
+#       mountPath: /var/run/docker.sock
+#   volumes:
+#     - type: HostPath
+#       volumeName: docker-bin
+#       hostPath: /usr/bin/docker
+#       mountPath: /usr/bin/docker
+#   resources:
+#     requests:
+#       cpu: "200m"
+#       memory: "256Mi"
+#     limits:
+#       cpu: "600m"
+#       memory: "768Mi"
 persistence:
   enabled: true
   existingClaim: jenkins-pvc
