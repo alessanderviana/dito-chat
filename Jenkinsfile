@@ -16,7 +16,7 @@ pipeline {
             agent any
             steps {
                 echo 'Testing frontend ...'
-                sh 'cd  frontend && npm test'
+                sh 'cd  frontend/src && npm test'
             }
         }
     }
