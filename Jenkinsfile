@@ -9,15 +9,14 @@ pipeline {
             steps {
                 echo 'Installing ...'
                 sh 'pwd ; ls -l'
-                sh 'npm install'
+                sh 'npm install frontend'
             }
         }
         stage('Test') {
             agent any
             steps {
                 echo 'Testing frontend ...'
-                sh 'cd frontend'
-                sh 'npm test'
+                sh 'npm test frontend'
             }
         }
     }
