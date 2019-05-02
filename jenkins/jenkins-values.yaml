@@ -28,16 +28,22 @@ agent:
 
 persistence:
   enabled: true
-  mountDockerSocket: true
+  # mountDockerSocket: true
   existingClaim: jenkins-pvc
   volumes:
     - name: dockerbin
       namespace: cd-jenkins
       hostPath:
         path: /usr/bin/docker
+    - name: dockersock
+      namespace: cd-jenkins
+      hostPath:
+        path: /var/run/docker.sock
   mounts:
     - name: dockerbin
       mountPath: /usr/bin/docker
+    - name: dockersock
+      mountPath: /var/run/docker.sock
 networkPolicy:
   apiVersion: networking.k8s.io/v1
 rbac:
