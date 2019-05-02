@@ -11,6 +11,16 @@ master:
     - cloudbees-bitbucket-branch-source:2.4.4
     - greenballs:1.15
   image: jenkins/jenkins
+  volumes:
+  - type: HostPath
+    volumeName: dockersock
+    hostPath: /var/run/docker.sock
+    mountPath: /var/run/docker.sock
+  volumes:
+  - type: HostPath
+    volumeName: dockerbin
+    hostPath: /usr/bin/docker
+    mountPath: /usr/bin/docker
   resources:
     requests:
       cpu: "50m"
@@ -21,36 +31,26 @@ master:
   servicePort: 8181
   serviceType: NodePort
   nodePort: 32000
+agent:
+  enabled: true
+  image: jenkins/jnlp-slave
   volumes:
-    - type: HostPath
-      volumeName: dockersock
-      hostPath: /var/run/docker.sock
-      mountPath: /var/run/docker.sock
+  - type: HostPath
+    volumeName: dockersock
+    hostPath: /var/run/docker.sock
+    mountPath: /var/run/docker.sock
   volumes:
-    - type: HostPath
-      volumeName: dockerbin
-      hostPath: /usr/bin/docker
-      mountPath: /usr/bin/docker
-# agent:
-#   enabled: true
-#   image: jenkins/jnlp-slave
-#   volumes:
-#     - type: HostPath
-#       volumeName: dockersock
-#       hostPath: /var/run/docker.sock
-#       mountPath: /var/run/docker.sock
-#   volumes:
-#     - type: HostPath
-#       volumeName: docker-bin
-#       hostPath: /usr/bin/docker
-#       mountPath: /usr/bin/docker
-#   resources:
-#     requests:
-#       cpu: "200m"
-#       memory: "256Mi"
-#     limits:
-#       cpu: "600m"
-#       memory: "768Mi"
+  - type: HostPath
+    volumeName: docker-bin
+    hostPath: /usr/bin/docker
+    mountPath: /usr/bin/docker
+  resources:
+    requests:
+      cpu: "200m"
+      memory: "256Mi"
+    limits:
+      cpu: "400m"
+      memory: "512Mi"
 persistence:
   enabled: true
   existingClaim: jenkins-pvc
