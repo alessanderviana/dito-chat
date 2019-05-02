@@ -1,22 +1,29 @@
 pipeline {
-
-    agent none
-    tools {nodejs "node"}
-
+    agent {
+        docker {
+            image 'node:6-alpine'
+            args '-p 3000:3000'
+        }
+    }
+    environment {
+        CI = 'true'
+    }
     stages {
-        stage('Node dependencies') {
-            agent any
+        stage('Build') {
             steps {
-                echo 'Installing ...'
-                sh 'pwd ; ls -l'
-                sh 'cd  frontend && npm install'
+                sh 'npm install'
             }
         }
         stage('Test') {
-            agent any
             steps {
-                echo 'Testing frontend ...'
-                sh 'cd  frontend/src && npm test'
+                sh './jenkins/scripts/test.sh'
+            }
+        }
+        stage('Deliver') {
+            steps {
+                sh './jenkins/scripts/deliver.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
             }
         }
     }
