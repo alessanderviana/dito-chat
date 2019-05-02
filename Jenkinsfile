@@ -1,14 +1,24 @@
-node {
-    def app
+pipeline {
 
-    stage('Build frontend') {
-        sh 'ls -l && pwd'
-        app = docker.build('ale55ander/frontend')
+    agent none
+    tools {nodejs "node"}
 
-    }
-    stage('Test frontend') {
-        app.withRun('-p 3000:3000') {
-            sh 'npm test /frontend'
+    stages {
+        stage('Node dependencies') {
+            agent any
+            steps {
+                echo 'Installing ...'
+                sh 'pwd ; ls -l'
+                sh 'npm install'
+            }
+        }
+        stage('Test') {
+            agent any
+            steps {
+                echo 'Testing frontend ...'
+                sh 'cd frontend'
+                sh 'npm test'
+            }
         }
     }
 }
