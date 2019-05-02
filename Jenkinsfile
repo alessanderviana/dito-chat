@@ -14,12 +14,12 @@ pipeline {
                 sh 'cd frontend && npm install'
             }
         }
-        /* stage('Test') {
+        stage('Test') {
             steps {
-                sh './jenkins/scripts/test.sh'
+                sh 'cd frontend && npm test'
             }
         }
-        stage('Deliver') {
+        /* stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
