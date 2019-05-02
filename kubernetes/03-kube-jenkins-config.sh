@@ -11,6 +11,8 @@ kubectl create -f jenkins/jenkins-pv-claim.yaml
 helm install --name jenkins stable/jenkins -f jenkins/jenkins-values.yaml --namespace cd-jenkins --wait
 
 # Connect to Jenkins (get password)
-echo -e "\n########################################################################################################"
-printf $(kubectl get secret jenkins -n cd-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
-echo -e "########################################################################################################\n\n"
+if [ $? -eq 0 ]; then
+  echo -e "\n########################################################################################################"
+  printf $(kubectl get secret jenkins -n cd-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+  echo -e "########################################################################################################\n\n"
+fi
