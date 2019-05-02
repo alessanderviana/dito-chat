@@ -9,7 +9,7 @@ pipeline {
             steps {
                 echo 'Installing ...'
                 sh 'pwd ; ls -l'
-                sh 'npm install frontend'
+                sh 'cd  frontend && npm install'
             }
         }
         stage('Test') {
