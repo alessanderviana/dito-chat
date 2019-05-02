@@ -26,14 +26,19 @@ master:
   #   volumeName: docker-sock
   #   hostPath: /var/run/docker.sock
   #   mountPath: /var/run/docker.sock
-  # volumes:
-  #   type: HostPath
-  #   volumeName: docker-bin
-  #   hostPath: /usr/bin/docker
-  #   mountPath: /usr/bin/docker
 agent:
   enabled: true
   image: jenkins/jnlp-slave
+  volumes:
+    - type: HostPath
+      volumeName: docker-sock
+      hostPath: /var/run/docker.sock
+      mountPath: /var/run/docker.sock
+  volumes:
+    - type: HostPath
+      volumeName: docker-bin
+      hostPath: /usr/bin/docker
+      mountPath: /usr/bin/docker
   resources:
     requests:
       cpu: "200m"
@@ -41,11 +46,6 @@ agent:
     limits:
       cpu: "600m"
       memory: "768Mi"
-  volumes:
-    - type: HostPath
-      volumeName: docker-sock
-      hostPath: /var/run/docker.sock
-      mountPath: /var/run/docker.sock
 persistence:
   enabled: true
   existingClaim: jenkins-pvc
