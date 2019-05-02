@@ -10,17 +10,8 @@ master:
     - pipeline-stage-view:2.11
     - cloudbees-bitbucket-branch-source:2.4.4
     - greenballs:1.15
-  image: jenkins/jenkins
-  volumes:
-  - type: HostPath
-    volumeName: dockersock
-    hostPath: /var/run/docker.sock
-    mountPath: /var/run/docker.sock
-  volumes:
-  - type: HostPath
-    volumeName: dockerbin
-    hostPath: /usr/bin/docker
-    mountPath: /usr/bin/docker
+  image: "jenkins/jenkins"
+  imageTag: "lts"
   resources:
     requests:
       cpu: "50m"
@@ -31,29 +22,22 @@ master:
   servicePort: 8181
   serviceType: NodePort
   nodePort: 32000
+
 agent:
-  enabled: true
-  image: jenkins/jnlp-slave
-  volumes:
-  - type: HostPath
-    volumeName: dockersock
-    hostPath: /var/run/docker.sock
-    mountPath: /var/run/docker.sock
-  volumes:
-  - type: HostPath
-    volumeName: docker-bin
-    hostPath: /usr/bin/docker
-    mountPath: /usr/bin/docker
-  resources:
-    requests:
-      cpu: "200m"
-      memory: "256Mi"
-    limits:
-      cpu: "400m"
-      memory: "512Mi"
+  enabled: false
+
 persistence:
   enabled: true
+  mountDockerSocket: true
   existingClaim: jenkins-pvc
+  volumes:
+    - name: dockerbin
+      namespace: cd-jenkins
+      hostPath:
+        path: /usr/bin/docker
+  mounts:
+    - name: dockerbin
+      mountPath: /usr/bin/docker
 networkPolicy:
   apiVersion: networking.k8s.io/v1
 rbac:
