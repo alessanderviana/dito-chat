@@ -1,24 +1,34 @@
 pipeline {
+
     agent {
-        docker {
-            image 'node:6-alpine'
-            args '-p 3000:3000'
-        }
+        label 'docker'
     }
-    environment {
-        CI = 'true'
-    }
+
     stages {
+
+        stage('FrontEnd') {
+            agent {
+                // It is built from a custom `Dockerfile` in the directory `frontend/`
+                dockerfile {
+                    dir 'frontend/'
+                    // Use the same node as the rest of the build
+                    reuseNode true
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'cd frontend && npm install'
             }
         }
+
         stage('Test') {
             steps {
                 sh 'cd frontend && npm test'
             }
         }
+
         /* stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
@@ -26,5 +36,7 @@ pipeline {
                 sh './jenkins/scripts/kill.sh'
             }
         } */
+
     }
+
 }
