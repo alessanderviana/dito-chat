@@ -15,17 +15,15 @@ pipeline {
                     reuseNode true
                 }
             }
-        }
-
-        stage('Build') {
             steps {
-                sh 'cd frontend && npm install'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'cd frontend && npm test'
+                script {
+                    stage('Install') {
+                        sh 'cd frontend && npm install'
+                    }
+                    stage('Test') {
+                        sh 'cd frontend && npm test'
+                    }
+                }
             }
         }
 
