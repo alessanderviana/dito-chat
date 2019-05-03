@@ -6,6 +6,27 @@ kubectl create ns production
 # Create the redis pod
 kubectl --namespace=production create -f kubernetes/redis/redis.yaml
 
+# Create a Metal LoadBalancer
+kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml
+
+# Create the metallb ConfigMap
+NODE_NET=$( kubectl get nodes -owide | grep node-1 | awk '{ print $6 }' | awk -F'.' '{print $1"."$2"."$3"."}' )
+cat > /tmp/metallb-cmap.yaml <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - ${NODE_NET}240-${NODE_NET}250
+EOF
+kubectl apply -f /tmp/metallb-cmap.yaml
+
 # Create the frontend and backend services deployments
 kubectl --namespace=production apply -f kubernetes/services
 
