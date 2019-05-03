@@ -42,7 +42,7 @@ pipeline {
                         sh 'cd frontend && npm install'
                     }
                     stage('Test') {
-                        sh 'cd frontend && npm test --forceExit'
+                        sh 'cd frontend && npm test --runInBand'
                     }
                 }
             }
