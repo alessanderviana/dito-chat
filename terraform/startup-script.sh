@@ -26,5 +26,5 @@ EOF
 mkdir -p /etc/systemd/system/docker.service.d
 systemctl daemon-reload && systemctl restart docker
 
-# Needed images
-kubeadm config images pull | systemd-cat
+# Needed kubernetes images
+kubeadm config images pull
