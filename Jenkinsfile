@@ -4,11 +4,35 @@ pipeline {
 
     stages {
 
+        stage('BackEnd') {
+            agent {
+                // It's built from a custom `Dockerfile` in the directory `backend/`
+                dockerfile {
+                    dir 'backend'
+                    // Use the same node as the rest of the build
+                    reuseNode true
+                }
+            }
+            steps {
+                script {
+                    // You could split this up into multiple stages if you wanted to
+                    stage('Test') {
+                        sh 'cd backend && go get -t ./...'
+                        sh 'cd backend && go test .'
+                    }
+                    stage('Build') {
+                        sh 'cd backend && go build .'
+                    }
+                }
+            }
+            }
+        }
+
         stage('FrontEnd') {
             agent {
                 // It is built from a custom `Dockerfile` in the directory `frontend/`
                 dockerfile {
-                    dir 'frontend/'
+                    dir 'frontend'
                     // Use the same node as the rest of the build
                     reuseNode true
                 }
@@ -19,7 +43,7 @@ pipeline {
                         sh 'cd frontend && npm install'
                     }
                     stage('Test') {
-                        sh 'cd frontend && npm test'
+                        sh 'cd frontend && npm test --forceExit'
                     }
                 }
             }
