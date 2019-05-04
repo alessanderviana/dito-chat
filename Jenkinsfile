@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     stage('Test app') {
-                        sh 'cd backend && go get -t ./...'
+                        sh 'cd backend && go get ./...'
                         sh 'cd backend && go test'
                     }
                     stage('Build app') {
@@ -39,7 +39,8 @@ pipeline {
             steps {
                 script {
                     stage('Run Docker') {
-                        node {
+                        agent any
+                        steps {
                             sh 'docker run -d -p 8080:8080 ale55ander/backend:latest'
                         }
                     }
