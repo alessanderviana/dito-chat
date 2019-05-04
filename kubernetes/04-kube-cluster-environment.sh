@@ -42,9 +42,10 @@ envsubst < kubernetes/canary/frontend-canary-template.yml > kubernetes/canary/fr
 kubectl --namespace=production create -f kubernetes/canary/frontend-canary.yaml
 
 # Create the production deployments
+envsubst < kubernetes/production/backend-production-template.yml > kubernetes/production/backend-production.yaml
 kubectl --namespace=production apply -f kubernetes/production/backend-production.yaml
+envsubst < kubernetes/production/frontend-production-template.yml > kubernetes/production/frontend-production.yaml
 kubectl --namespace=production apply -f kubernetes/production/frontend-production.yaml
-# kubectl --namespace=production apply -f kubernetes/canary
 
 # Scale the production deployment
 kubectl --namespace=production scale deployment chat-frontend-production --replicas=4
