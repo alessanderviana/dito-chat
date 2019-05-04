@@ -17,9 +17,9 @@ spec:
         image: ale55ander/backend:1.4
         env:
           - name: ALLOWED_ORIGIN
-            value: "http://localhost:3000"
+            value: "http://${FRONT_C_IP}:3000"
           - name: REDIS_ADDR
-            value: "localhost:6379"
+            value: "${REDIS_C_IP}:6379"
         resources:
           limits:
             memory: "500Mi"

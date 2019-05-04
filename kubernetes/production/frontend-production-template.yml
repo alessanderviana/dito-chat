@@ -17,9 +17,9 @@ spec:
         image: ale55ander/frontend:1.4
         env:
           - name: REACT_APP_BACKEND_WS
-            value: "ws://localhost:8080"
+            value: "ws://${BACK_C_IP}:8080"
           - name: REACT_APP_BACKEND_URL
-            value: "http://localhost:8080"
+            value: "http://${BACK_C_IP}:8080"
         resources:
           limits:
             memory: "500Mi"
@@ -28,8 +28,8 @@ spec:
         readinessProbe:
           httpGet:
             port: 3000
-            initialDelaySeconds: 3
-            periodSeconds: 3
+          initialDelaySeconds: 30
+          periodSeconds: 3
         command: ["npm", "start"]
         ports:
         - name: frontend
