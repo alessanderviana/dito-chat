@@ -1,39 +1,34 @@
 pipeline {
-
     agent none
-
     stages {
-
-        stage('BackEnd') {
+        stage('Docker:Go') {
             agent {
-                // It's built from a custom `Dockerfile` in the directory `backend/`
-                dockerfile {
-                    dir 'backend'
+                docker {
+                    image 'golang:1.11'
                     // Use the same node as the rest of the build
                     reuseNode true
+                    args '-v $WORKSPACE/backend:/backend'
                 }
             }
             steps {
                 script {
-                    // You could split this up into multiple stages if you wanted to
-                    stage('Test') {
+                    stage('Test app') {
                         sh 'cd backend && go get -t ./...'
-                        sh 'cd backend && go test .'
+                        sh 'cd backend && go test'
                     }
-                    stage('Build') {
-                        sh 'cd backend && go build .'
+                    stage('Build app') {
+                        sh 'cd backend && go build'
                     }
                 }
             }
         }
-
-        stage('FrontEnd') {
+        stage('Docker:Node') {
             agent {
-                // It is built from a custom `Dockerfile` in the directory `frontend/`
-                dockerfile {
-                    dir 'frontend'
+                docker {
+                    image 'node:8.7.0-alpine'
                     // Use the same node as the rest of the build
                     reuseNode true
+                    args '-v $WORKSPACE/frontend:/frontend'
                 }
             }
             steps {
@@ -42,20 +37,13 @@ pipeline {
                         sh 'cd frontend && npm install'
                     }
                     stage('Test') {
-                        sh 'cd frontend && npm test --runInBand'
+                        sh 'cd frontend && npm run test'
+                    }
+                    stage('Prune') {
+                        sh 'cd frontend && npm prune --production'
                     }
                 }
             }
         }
-
-        /* stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-                input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
-            }
-        } */
-
     }
-
 }
