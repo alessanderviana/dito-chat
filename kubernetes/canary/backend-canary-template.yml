@@ -26,8 +26,10 @@ spec:
             cpu: "100m"
         imagePullPolicy: Always
         readinessProbe:
-          httpGet:
+          tcpSocket:
             port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
         command: ["backend"]
         ports:
         - name: backend
