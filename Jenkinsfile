@@ -9,6 +9,7 @@ pipeline {
                 docker {
                     image 'golang:1.11'
                     args '-p 8080:8080'
+                    reuseNode true
                 }
             }
             steps {
@@ -30,6 +31,7 @@ pipeline {
                 docker {
                     image 'node:8.7.0-alpine'
                     args '-p 3000:3000'
+                    reuseNode true
                 }
             }
             steps {
