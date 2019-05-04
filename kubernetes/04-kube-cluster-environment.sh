@@ -42,7 +42,8 @@ envsubst < kubernetes/canary/frontend-canary-template.yml > kubernetes/canary/fr
 kubectl --namespace=production create -f kubernetes/canary/frontend-canary.yaml
 
 # Create the production deployments
-kubectl --namespace=production apply -f kubernetes/production
+kubectl --namespace=production apply -f kubernetes/production/backend-production.yaml
+kubectl --namespace=production apply -f kubernetes/production/frontend-production.yaml
 # kubectl --namespace=production apply -f kubernetes/canary
 
 # Scale the production deployment
