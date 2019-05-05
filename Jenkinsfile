@@ -1,6 +1,11 @@
 pipeline {
     agent none
     stages {
+        stage('Git checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Docker:Go') {
             steps {
                 node('master') {
