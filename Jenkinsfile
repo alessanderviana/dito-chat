@@ -6,14 +6,14 @@ pipeline {
     stages {
         stage('Git checkout') {
             steps {
-                node('docker') {
+                node('master') {
                     checkout scm
                 }
             }
         }
         stage('Define Registry') {
             steps {
-                node('docker') {
+                node('master') {
                     script {
                         hub = docker.withRegistry("", "docker-hub-credentials")
                     }
