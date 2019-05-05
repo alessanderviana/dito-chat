@@ -2,62 +2,49 @@ pipeline {
     agent none
     stages {
         stage('Docker:Go') {
-            agent {
-                docker {
-                    image 'golang:1.11'
-                    // Use the same node as the rest of the build
-                    reuseNode true
-                    args '-v $WORKSPACE/backend:/backend'
+            node {
+                def backend = docker.build('ale55ander/backend', 'backend')
+            }
+            steps {
+                backend.inside {
+                    sh 'cd backend && go get ./...'
                 }
             }
             steps {
-                script {
-                    stage('Test app') {
-                        sh 'cd backend && go get ./...'
-                        sh 'cd backend && go test'
-                    }
-                    stage('Build app') {
-                        sh 'cd backend && go build'
-                    }
-                    stage('Build Docker') {
-                        node {
-                            sh 'cd backend && docker build -t ale55ander/backend:latest .'
-                        }
-                    }
+                backend.inside {
+                    sh 'cd backend && go test ./...'
                 }
+            steps {
+                backend.inside {
+                    sh 'cd backend && go build'
+                }
+            }
+            steps {
+                backend.push 'latest'
             }
         }
         stage('Docker:Node') {
-            agent {
-                docker {
-                    image 'node:8.7.0-alpine'
-                    // Use the same node as the rest of the build
-                    reuseNode true
-                    args '-v $WORKSPACE/frontend:/frontend'
+            node {
+                def frontend = docker.build('ale55ander/frontend', 'frontend')
+            }
+            steps {
+                frontend.inside {
+                    sh 'cd frontend && npm install'
                 }
             }
             steps {
-                script {
-                    stage('Run Docker') {
-                        agent any
-                        steps {
-                            sh 'docker run -d -p 8080:8080 ale55ander/backend:latest'
-                        }
-                    }
-                    stage('Install') {
-                        sh 'cd frontend && npm install'
-                    }
-                    stage('Test') {
-                        sh 'cd frontend && npm run test'
-                    }
-                    stage('Prune') {
-                        sh 'cd frontend && npm prune --production'
-                    }
-                    stage('Build Docker') {
-                        node {
-                            sh 'cd frontend && docker build -t ale55ander/frontend:latest .'
-                        }
-                    }
+                backend.withRun(-p 8080:8080) {
+                        sh 'echo 1'
+                }
+            }
+            steps {
+                frontend.inside {
+                    sh 'cd frontend && npm run test'
+                }
+            }
+            steps {
+                frontend.inside {
+                    sh 'cd frontend && npm prune --production'
                 }
             }
         }
