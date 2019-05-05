@@ -2,8 +2,10 @@ pipeline {
     agent none
     stages {
         stage('Docker:Go') {
-            node {
-                def backend = docker.build('ale55ander/backend', 'backend')
+            steps {
+                node {
+                    def backend = docker.build('ale55ander/backend', 'backend')
+                }
             }
             steps {
                 backend.inside {
