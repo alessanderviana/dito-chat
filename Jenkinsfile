@@ -5,25 +5,24 @@ pipeline {
             steps {
                 node {
                     def backend = docker.build('ale55ander/backend', 'backend')
-                        script {
-                            stage('Get packages') {
-                                backend.inside {
-                                    sh 'cd backend && go get ./...'
-                                }
+                    script {
+                        stage('Get packages') {
+                            backend.inside {
+                                sh 'cd backend && go get ./...'
                             }
-                            stage('Test App') {
-                                backend.inside {
-                                    sh 'cd backend && go test ./...'
-                                }
+                        }
+                        stage('Test App') {
+                            backend.inside {
+                                sh 'cd backend && go test ./...'
                             }
-                            stage('Build App') {
-                                backend.inside {
-                                    sh 'cd backend && go build'
-                                }
+                        }
+                        stage('Build App') {
+                            backend.inside {
+                                sh 'cd backend && go build'
                             }
-                            stage('Push Docker') {
-                                backend.push 'latest'
-                            }
+                        }
+                        stage('Push Docker') {
+                            backend.push 'latest'
                         }
                     }
                 }
