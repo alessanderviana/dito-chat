@@ -30,13 +30,17 @@ pipeline {
             steps {
                 node('master') {
                     script {
+                        sh '''
+                            sed -i 's/test": "react-scripts test/test": "CI=true react-scripts test --env=jsdom/' frontend/package.json
+                        '''
                         def frontend = docker.build('ale55ander/frontend', 'frontend')
                         docker.image('ale55ander/backend:latest').withRun('-p 8080:8080') {c ->
                             sh 'echo 1'
                         }
                         frontend.inside {
                             stage('Install packages') {
-                                sh 'cd frontend && npm install'
+                                /* This step is made by Dockerfile
+                                sh 'cd frontend && npm install' */
                             }
                             stage('Test App') {
                                 sh 'cd frontend && npm run test'
