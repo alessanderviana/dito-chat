@@ -5,49 +5,53 @@ pipeline {
             steps {
                 node {
                     def backend = docker.build('ale55ander/backend', 'backend')
+                    stage('Get packages') {
+                        backend.inside {
+                            sh 'cd backend && go get ./...'
+                        }
+                    }
+                    stage('Test App') {
+                        backend.inside {
+                            sh 'cd backend && go test ./...'
+                        }
+                    }
+                    stage('Build App') {
+                        backend.inside {
+                            sh 'cd backend && go build'
+                        }
+                    }
+                    stage('Push Docker') {
+                        backend.push 'latest'
+                    }
                 }
             }
-            steps {
-                backend.inside {
-                    sh 'cd backend && go get ./...'
-                }
-            }
-            steps {
-                backend.inside {
-                    sh 'cd backend && go test ./...'
-                }
-            }
-            steps {
-                backend.inside {
-                    sh 'cd backend && go build'
-                }
-            }
-            steps {
-                backend.push 'latest'
-            }
+
         }
         stage('Docker:Node') {
             node {
                 def frontend = docker.build('ale55ander/frontend', 'frontend')
-            }
-            steps {
-                frontend.inside {
-                    sh 'cd frontend && npm install'
+                stage('Install packages') {
+                    frontend.inside {
+                        sh 'cd frontend && npm install'
+                    }
                 }
-            }
-            steps {
-                backend.withRun('-p 8080:8080') {
-                        sh 'echo 1'
+                stage('Run backend') {
+                    backend.withRun('-p 8080:8080') {
+                            sh 'echo 1'
+                    }
                 }
-            }
-            steps {
-                frontend.inside {
-                    sh 'cd frontend && npm run test'
+                stage('Test App') {
+                    frontend.inside {
+                        sh 'cd frontend && npm run test'
+                    }
                 }
-            }
-            steps {
-                frontend.inside {
-                    sh 'cd frontend && npm prune --production'
+                stage('Cleaning') {
+                    frontend.inside {
+                        sh 'cd frontend && npm prune --production'
+                    }
+                }
+                stage('Push Docker') {
+                    frontend.push 'latest'
                 }
             }
         }
