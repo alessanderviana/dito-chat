@@ -11,15 +11,6 @@ pipeline {
                 }
             }
         }
-        stage('Define Registry') {
-            steps {
-                node('master') {
-                    script {
-                        hub = docker.withRegistry("", "docker-hub-credentials")
-                    }
-                }
-            }
-        }
         stage('Docker:Go') {
             steps {
                 node('master') {
@@ -34,9 +25,6 @@ pipeline {
                             }
                             stage('Build App') {
                                 sh 'cd backend && go build'
-                            }
-                            stage('Push Docker') {
-                                backend.push 'latest'
                             }
                         }
                     }
@@ -64,12 +52,15 @@ pipeline {
                             stage('Cleaning') {
                                 sh 'cd frontend && npm prune --production'
                             }
-                            stage('Push Docker') {
-                                frontend.push 'latest'
-                            }
                         }
                     }
                 }
+            }
+        }
+        stage('Push Docker') {
+            docker.withRegistry("", "docker-hub-credentials") {
+                backend.push 'latest'
+                frontend.push 'latest'
             }
         }
     }
