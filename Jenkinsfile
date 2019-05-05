@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('Git checkout') {
             steps {
-                checkout scm
+                node('master') {
+                    checkout scm
+                }
             }
         }
         stage('Docker:Go') {
