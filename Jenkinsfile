@@ -33,7 +33,7 @@ pipeline {
                 }
             }
             steps {
-                backend.withRun(-p 8080:8080) {
+                backend.withRun('-p 8080:8080') {
                         sh 'echo 1'
                 }
             }
