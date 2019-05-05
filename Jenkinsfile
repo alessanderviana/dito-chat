@@ -1,11 +1,22 @@
+def hub
+def backend
+def frontend
 pipeline {
     agent none
     stages {
+        stage('Git checkout') {
+            steps {
+                node('master') {
+                    hub = docker.withRegistry("", "docker-hub-credentials")
+                    checkout scm
+                }
+            }
+        }
         stage('Docker:Go') {
             steps {
                 node('master') {
                     script {
-                        def backend = docker.build('ale55ander/backend', 'backend')
+                        backend = docker.build('ale55ander/backend', 'backend')
                         backend.inside {
                             stage('Get packages') {
                                 sh 'cd backend && go get ./...'
@@ -17,9 +28,7 @@ pipeline {
                                 sh 'cd backend && go build'
                             }
                             stage('Push Docker') {
-                                docker.withRegistry("", "docker-hub-credentials") {
-                                    backend.push 'latest'
-                                }
+                                backend.push 'latest'
                             }
                         }
                     }
@@ -30,7 +39,10 @@ pipeline {
             steps {
                 node('master') {
                     script {
-                        def frontend = docker.build('ale55ander/frontend', 'frontend')
+                        sh '''
+                            sed -i 's/test": "react-scripts test/test": "CI=true react-scripts test --env=jsdom/' frontend/package.json
+                        '''
+                        frontend = docker.build('ale55ander/frontend', 'frontend')
                         docker.image('ale55ander/backend:latest').withRun('-p 8080:8080') {c ->
                             sh 'echo 1'
                         }
@@ -39,16 +51,13 @@ pipeline {
                                 sh 'cd frontend && npm install'
                             }
                             stage('Test App') {
-                                /* Commented because it stays stuck in this step
-                                sh 'cd frontend && npm run test' */
+                                sh 'cd frontend && npm run test'
                             }
                             stage('Cleaning') {
                                 sh 'cd frontend && npm prune --production'
                             }
                             stage('Push Docker') {
-                                docker.withRegistry("", "docker-hub-credentials") {
-                                    frontend.push 'latest'
-                                }
+                                frontend.push 'latest'
                             }
                         }
                     }
