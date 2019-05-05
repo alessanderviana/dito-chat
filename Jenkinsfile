@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Docker:Go') {
             steps {
-                node {
+                node('master') {
                     def backend = docker.build('ale55ander/backend', 'backend')
                     script {
                         stage('Get packages') {
@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Docker:Node') {
             steps {
-                node {
+                node('master') {
                     def frontend = docker.build('ale55ander/frontend', 'frontend')
                     script {
                         stage('Install packages') {
