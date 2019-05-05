@@ -9,10 +9,10 @@ pipeline {
                 node('master') {
                     checkout scm
                 }
-                script {
-                    hub = docker.withRegistry("", "docker-hub-credentials")
-                }
             }
+        }
+        stage('Define Registry') {
+            hub = docker.withRegistry("", "docker-hub-credentials")
         }
         stage('Docker:Go') {
             steps {
