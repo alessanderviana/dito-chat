@@ -2,8 +2,8 @@ pipeline {
     agent none
     stages {
         stage('Docker:Go') {
-            steps {
-                node {
+            node {
+                steps {
                     def backend = docker.build('ale55ander/backend', 'backend')
                     script {
                         stage('Get packages') {
@@ -30,8 +30,8 @@ pipeline {
         }
         stage('Docker:Node') {
             node {
-                def frontend = docker.build('ale55ander/frontend', 'frontend')
                 steps {
+                    def frontend = docker.build('ale55ander/frontend', 'frontend')
                     script {
                         stage('Install packages') {
                             frontend.inside {
