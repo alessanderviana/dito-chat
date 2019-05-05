@@ -46,8 +46,7 @@ pipeline {
                         }
                         frontend.inside {
                             stage('Install packages') {
-                                /* This step is made by Dockerfile
-                                sh 'cd frontend && npm install' */
+                                sh 'cd frontend && npm install'
                             }
                             stage('Test App') {
                                 sh 'cd frontend && npm run test'
