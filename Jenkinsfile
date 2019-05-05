@@ -60,9 +60,11 @@ pipeline {
         stage('Push Docker') {
             steps {
                 node('master') {
-                    docker.withRegistry("", "docker-hub-credentials") {
-                        backend.push 'latest'
-                        frontend.push 'latest'
+                    script {
+                        docker.withRegistry("", "docker-hub-credentials") {
+                            backend.push 'latest'
+                            frontend.push 'latest'
+                        }
                     }
                 }
             }
