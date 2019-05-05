@@ -55,9 +55,9 @@ pipeline {
                                 sh 'cd frontend && npm prune --production'
                             }
                             stage('Push Docker') {
-                                docker.withRegistry("", "docker-hub-credentials") {
-                                    frontend.push 'latest'
-                                }
+                                //docker.withRegistry("", "docker-hub-credentials") {
+                                frontend.push 'latest'
+                                //}
                             }
                         }
                     }
