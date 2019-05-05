@@ -7,8 +7,10 @@ pipeline {
         stage('Git checkout') {
             steps {
                 node('master') {
-                    hub = docker.withRegistry("", "docker-hub-credentials")
                     checkout scm
+                }
+                script {
+                    hub = docker.withRegistry("", "docker-hub-credentials")
                 }
             }
         }
