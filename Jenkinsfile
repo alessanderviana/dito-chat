@@ -14,6 +14,7 @@ pipeline {
                 backend.inside {
                     sh 'cd backend && go test ./...'
                 }
+            }
             steps {
                 backend.inside {
                     sh 'cd backend && go build'
