@@ -58,9 +58,13 @@ pipeline {
             }
         }
         stage('Push Docker') {
-            docker.withRegistry("", "docker-hub-credentials") {
-                backend.push 'latest'
-                frontend.push 'latest'
+            steps {
+                node('master') {
+                    docker.withRegistry("", "docker-hub-credentials") {
+                        backend.push 'latest'
+                        frontend.push 'latest'
+                    }
+                }
             }
         }
     }
