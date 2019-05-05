@@ -6,24 +6,20 @@ pipeline {
                 node('master') {
                     script {
                         def backend = docker.build('ale55ander/backend', 'backend')
-                        stage('Get packages') {
-                            backend.inside {
+                        backend.inside {
+                            stage('Get packages') {
                                 sh 'cd backend && go get ./...'
                             }
-                        }
-                        stage('Test App') {
-                            backend.inside {
+                            stage('Test App') {
                                 sh 'cd backend && go test ./...'
                             }
-                        }
-                        stage('Build App') {
-                            backend.inside {
+                            stage('Build App') {
                                 sh 'cd backend && go build'
                             }
-                        }
-                        stage('Push Docker') {
-                            docker.withRegistry('https://hub.docker.com/', 'docker-hub-credentials') {
-                                backend.push 'latest'
+                            stage('Push Docker') {
+                                docker.withRegistry('https://hub.docker.com', 'docker-hub-credentials') {
+                                    backend.push 'latest'
+                                }
                             }
                         }
                     }
@@ -56,7 +52,7 @@ pipeline {
                             }
                         }
                         stage('Push Docker') {
-                            docker.withRegistry('https://hub.docker.com/', 'docker-hub-credentials') {
+                            docker.withRegistry('https://hub.docker.com', 'docker-hub-credentials') {
                                 frontend.push 'latest'
                             }
                         }
