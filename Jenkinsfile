@@ -31,7 +31,7 @@ pipeline {
                 node('master') {
                     script {
                         def frontend = docker.build('ale55ander/frontend', 'frontend')
-                        backend.withRun('-p 8080:8080') {
+                        docker.image('ale55ander/backend:latest').withRun('-p 8080:8080') {c ->
                             sh 'echo 1'
                         }
                         frontend.inside {
