@@ -12,7 +12,9 @@ pipeline {
             }
         }
         stage('Define Registry') {
-            hub = docker.withRegistry("", "docker-hub-credentials")
+            steps {
+                hub = docker.withRegistry("", "docker-hub-credentials")
+            }
         }
         stage('Docker:Go') {
             steps {
