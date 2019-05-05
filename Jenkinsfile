@@ -4,8 +4,8 @@ pipeline {
         stage('Docker:Go') {
             steps {
                 node('master') {
-                    def backend = docker.build('ale55ander/backend', 'backend')
                     script {
+                        def backend = docker.build('ale55ander/backend', 'backend')
                         stage('Get packages') {
                             backend.inside {
                                 sh 'cd backend && go get ./...'
@@ -31,8 +31,8 @@ pipeline {
         stage('Docker:Node') {
             steps {
                 node('master') {
-                    def frontend = docker.build('ale55ander/frontend', 'frontend')
                     script {
+                        def frontend = docker.build('ale55ander/frontend', 'frontend')
                         stage('Install packages') {
                             frontend.inside {
                                 sh 'cd frontend && npm install'
