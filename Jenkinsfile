@@ -22,7 +22,9 @@ pipeline {
                             }
                         }
                         stage('Push Docker') {
-                            backend.push 'latest'
+                            docker.withRegistry('https://hub.docker.com/', 'docker-hub-credentials') {
+                                backend.push 'latest'
+                            }
                         }
                     }
                 }
@@ -54,7 +56,9 @@ pipeline {
                             }
                         }
                         stage('Push Docker') {
-                            frontend.push 'latest'
+                            docker.withRegistry('https://hub.docker.com/', 'docker-hub-credentials') {
+                                frontend.push 'latest'
+                            }
                         }
                     }
                 }
