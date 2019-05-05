@@ -43,9 +43,9 @@ pipeline {
                             sed -i 's/test": "react-scripts test/test": "CI=true react-scripts test --env=jsdom/' frontend/package.json
                         '''
                         frontend = docker.build('ale55ander/frontend', 'frontend')
-                        docker.image('ale55ander/backend:latest').withRun('-p 8080:8080') {c ->
+                        /* docker.image('ale55ander/backend:latest').withRun('-p 8080:8080') {c ->
                             sh 'echo 1'
-                        }
+                        } */
                         frontend.inside {
                             stage('Install packages') {
                                 sh 'cd frontend && npm install'
