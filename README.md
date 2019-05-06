@@ -55,3 +55,55 @@ The canary / production deployment strategy is more used when the tests process 
 
 ![canary-release-strategy](pictures/canary-release-strategy.png)
 
+
+
+# Creating the kubernetes environment
+
+
+To replicate the environment you'll need follow the below steps, after clone this repo:
+
+Requirements
+------------
+
+ - Install Terraform -> https://www.terraform.io/downloads.html
+ - Install Google Cloud SDK (Optional) -> https://cloud.google.com/sdk/install
+
+Variables to provisioning
+-------------------------
+
+In the terraform/variables.tf file, you have to change some variables values:
+
+gcp_project -> Your Google Cloud project. Ex: my-gcp-project
+
+credentials -> The path to your json credential file. EX: /path/to/my/credentials.json"
+
+pub_key -> The path to your SSH public key file. Ex: /path/to/my/public-key.pub
+
+priv_key -> The path to your SSH private key file. Ex: /path/to/my/private-key"
+
+
+The credentials json file can be got only when it is created. If you already have a Google Cloud account, this file will be in some folder in your workstation.
+
+If you installed the GCloud SDK you can get a public/private key pair acessing a Google cloud instance with it (gcloud compute ssh GCP_INSTANCE_NAME --zone=YOUR_INSTANCE_ZONE). If not, you'll have to create manually (If you don't have one yet) and send the public key each of your instance.
+
+
+Provisioning the instances
+--------------------------
+
+This approach create 2 instances to be part of the kubernetes cluster.
+Both are n1-standard-2, that have 2 vCPUs and 7.5 GB of RAM. The kubernetes doesn't start the cluster in a machine with less of 2 vCPUs / cores.
+If you wish enlarge the instances number in the cluster, edit the terraform/kube-cluster-node.tf file and change the count variable.
+
+
+Inside the terraform dir, run:
+
+ - terraform init -> to download the Google cloud plugin
+ - terraform plan -> if you want see the instances info
+ - terraform apply -auto-approve -> to start up the provisioning, without interaction
+
+
+When provisioning finish you can connect in the instances by SSH, in one of this ways:
+
+ - gcloud compute ssh ubuntu@INSTANCE_NAME --zone=YOUR_INSTANCE_ZONE --ssh-key-file=/path/to/your/private-key/file
+ - ssh ubuntu@INSTANCE_EXTERNAL_IP -i /path/to/your/private-key/file (Your public key have to exist in the instances)
+ - in Google Cloud web console, access Compute Engine -> VM instances. Then click in the SSH button.
