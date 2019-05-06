@@ -1,6 +1,7 @@
 master:
   installPlugins:
     - kubernetes:1.15.2
+    - kubernetes-cli:1.6.0
     - workflow-job:2.32
     - workflow-aggregator:2.6
     - workflow-multibranch:2.21
@@ -38,11 +39,17 @@ persistence:
       namespace: cd-jenkins
       hostPath:
         path: /var/run/docker.sock
+    - name: kubectl
+      namespace: cd-jenkins
+      hostPath:
+        path: /usr/bin/kubectl
   mounts:
     - name: dockerbin
       mountPath: /usr/bin/docker
     - name: dockersock
       mountPath: /var/run/docker.sock
+    - name: kubectl
+      mountPath: /usr/bin/kubectl
 networkPolicy:
   apiVersion: networking.k8s.io/v1
 rbac:
