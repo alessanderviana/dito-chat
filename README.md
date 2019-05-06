@@ -36,8 +36,8 @@ Jenkins
 -------
 Jenkins is the second CI/CD tool most used, it has some disadvantages comparing to first place, as the need of a host to be installed (or container), but its big advantage is, it's open source.
 
-How it works
-==============
+Process overview
+================
 We have 2 main branches in this repository: the main and the canary. We also have a Jenkinsfile in the root of repository, in each branch.
 
 ![jenkins-main-canary](pictures/dito-chat-main-canary.png)
@@ -90,6 +90,7 @@ Provisioning the instances
 This approach create 2 instances to be part of the kubernetes cluster.
 Both are n1-standard-2, that have 2 vCPUs and 7.5 GB of RAM. The kubernetes doesn't start the cluster in a machine with less of 2 vCPUs / cores.
 If you wish enlarge the instances number in the cluster, edit the terraform/kube-cluster-node.tf file and change the count variable.
+The cost of this cluster is US$0.0950/h x 2 = US$0.19/h (nineteen cents by hour).
 
 
 Inside the terraform dir, run:
