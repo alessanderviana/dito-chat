@@ -10,6 +10,7 @@ master:
     - github:1.29.4
     - pipeline-stage-view:2.11
     - cloudbees-bitbucket-branch-source:2.4.4
+    - slack:2.23
     - greenballs:1.15
   image: "jenkins/jenkins"
   imageTag: "lts"
