@@ -11,8 +11,7 @@ The technologies used are:
  - Canary release strategy
 
 
-Google Cloud
-------------
+## Google Cloud
 The Google Cloud Platform was the choice for the test environment, because beyond another factors I think it's more simple to use and the instances startup is more faster.
 
 Terraform and Bash
