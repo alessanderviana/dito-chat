@@ -1,16 +1,18 @@
 master:
   installPlugins:
     - kubernetes:1.15.2
+    - kubernetes-cli:1.6.0
     - workflow-job:2.32
     - workflow-aggregator:2.6
     - workflow-multibranch:2.21
     - credentials-binding:1.18
-    - git:3.9.4
+    - git:3.10.0
     - github:1.29.4
     - pipeline-stage-view:2.11
     - cloudbees-bitbucket-branch-source:2.4.4
     - greenballs:1.15
-  image: jenkins/jenkins
+  image: "jenkins/jenkins"
+  imageTag: "lts"
   resources:
     requests:
       cpu: "50m"
@@ -21,19 +23,33 @@ master:
   servicePort: 8181
   serviceType: NodePort
   nodePort: 32000
+
 agent:
-  enabled: true
-  image: jenkins/jnlp-slave
-  resources:
-    requests:
-      cpu: "200m"
-      memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "256Mi"
+  enabled: false
+
 persistence:
   enabled: true
   existingClaim: jenkins-pvc
+  volumes:
+    - name: dockerbin
+      namespace: cd-jenkins
+      hostPath:
+        path: /usr/bin/docker
+    - name: dockersock
+      namespace: cd-jenkins
+      hostPath:
+        path: /var/run/docker.sock
+    - name: kubectl
+      namespace: cd-jenkins
+      hostPath:
+        path: /usr/bin/kubectl
+  mounts:
+    - name: dockerbin
+      mountPath: /usr/bin/docker
+    - name: dockersock
+      mountPath: /var/run/docker.sock
+    - name: kubectl
+      mountPath: /usr/bin/kubectl
 networkPolicy:
   apiVersion: networking.k8s.io/v1
 rbac:

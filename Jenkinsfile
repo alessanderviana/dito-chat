@@ -67,6 +67,25 @@ pipeline {
                         }
                     }
                 }
+<<<<<<< HEAD
+=======
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                node('master') {
+                    script {
+                        env.DEPLOY_ENV = 'canary'
+                        if (env.BRANCH_NAME == 'master') {
+                            env.DEPLOY_ENV = 'production'
+                        }
+                        withKubeConfig([credentialsId: 'kube-tiller', serverUrl: 'https://10.128.15.198:6443']) {
+                            sh ("kubectl --namespace=production set image deployment/chat-backend-${env.DEPLOY_ENV} backend=ale55ander/backend:latest")
+                            sh ("kubectl --namespace=production set image deployment/chat-frontend-${env.DEPLOY_ENV} frontend=ale55ander/frontend:latest")
+                        }
+                    }
+                }
+>>>>>>> master
             }
         }
     }

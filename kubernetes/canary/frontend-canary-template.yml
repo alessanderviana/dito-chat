@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: chat-frontend-production
+  name: chat-frontend-canary
 spec:
   replicas:
   template:
@@ -10,16 +10,22 @@ spec:
       labels:
         app: chat
         role: frontend
-        env: production
+        env: canary
     spec:
       containers:
       - name: frontend
         image: ale55ander/frontend:1.4
         env:
           - name: REACT_APP_BACKEND_WS
+<<<<<<< HEAD:kubernetes/canary/frontend-canary.yaml
+            value: "ws://${BACK_C_IP}:${BACK_NODE_PORT}"
+          - name: REACT_APP_BACKEND_URL
+            value: "http://${BACK_C_IP}:${BACK_NODE_PORT}"
+=======
             value: "ws://${BACK_C_IP}:8080"
           - name: REACT_APP_BACKEND_URL
             value: "http://${BACK_C_IP}:8080"
+>>>>>>> master:kubernetes/canary/frontend-canary-template.yml
         resources:
           limits:
             memory: "500Mi"
@@ -28,6 +34,8 @@ spec:
         readinessProbe:
           httpGet:
             port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 3
         command: ["npm", "start"]
         ports:
         - name: frontend

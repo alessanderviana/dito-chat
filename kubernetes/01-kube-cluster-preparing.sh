@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Cluster init
 # kubeadm init
 
 # Configure the current user
@@ -14,6 +15,6 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 echo "source <(kubectl completion bash)" >> .bashrc
 
 # Print Master token
-echo -e "\n####################################################"
+echo -e "\n########################################################################################################"
 kubeadm token create --print-join-command
-echo -e "####################################################\n\n"
+echo -e "########################################################################################################\n\n"

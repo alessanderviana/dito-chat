@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Fix Locale and adjust Timezone
+locale-gen pt_BR.UTF-8 && \
+rm -f /etc/localtime && sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
 # Docker
 curl -fsSL https://get.docker.com | sh
 usermod -aG docker ubuntu
@@ -26,5 +30,5 @@ EOF
 mkdir -p /etc/systemd/system/docker.service.d
 systemctl daemon-reload && systemctl restart docker
 
-# Needed images
-kubeadm config images pull | systemd-cat
+# Needed kubernetes images
+kubeadm config images pull
