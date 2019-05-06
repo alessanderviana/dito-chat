@@ -73,13 +73,10 @@ Variables to provisioning
 
 In the terraform/variables.tf file, you have to change some variables values:
 
-gcp_project -> Your Google Cloud project. Ex: my-gcp-project
-
-credentials -> The path to your json credential file. EX: /path/to/my/credentials.json"
-
-pub_key -> The path to your SSH public key file. Ex: /path/to/my/public-key.pub
-
-priv_key -> The path to your SSH private key file. Ex: /path/to/my/private-key"
+ - gcp_project -> Your Google Cloud project. Ex: my-gcp-project
+ - credentials -> The path to your json credential file. EX: /path/to/my/credentials.json"
+ - pub_key -> The path to your SSH public key file. Ex: /path/to/my/public-key.pub
+ - priv_key -> The path to your SSH private key file. Ex: /path/to/my/private-key"
 
 
 The credentials json file can be got only when it is created. If you already have a Google Cloud account, this file will be in some folder in your workstation.
