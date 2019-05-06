@@ -14,25 +14,20 @@ The technologies used are:
 ## Google Cloud
 The Google Cloud Platform was the choice for the test environment, because beyond another factors I think it's more simple to use and the instances startup is more faster.
 
-Terraform and Bash
-------------------
+## Terraform and Bash
 Terraform + Bash scripts were used to provisione Google Cloud instances. These instances when finish the startup, are already ready to use, with Docker and Kubernetes installed.
 Inside these instances we have to run some more scripts to: A) initial cluster configuration, B) Helm installation, C) pod jenkins creation (using Helm) and D) app environment configuration (namespace and the production / canary deployments).
 
-Docker
-------
+## Docker
 The Docker we've utilized to "containerize" the apps (frontend, backend and redis), is the master in the category.
 
-Kubernetes
-----------
+## Kubernetes
 The kubernetes is, no doubt, the best container orquestrator nowadays, and also it has an advantage: it is open source.
 
-Helm
-----
+## Helm
 Helm is a kind of kubernetes package manager and makes easy to install a lot of things inside kubernetes.
 
-Jenkins
--------
+## Jenkins
 Jenkins is the second CI/CD tool most used, it has some disadvantages comparing to first place, as the need of a host to be installed (or container), but its big advantage is, it's open source.
 
 Process overview
@@ -61,14 +56,12 @@ The canary / production deployment strategy is more used when the tests process 
 
 To replicate the environment you'll need follow the below steps, after clone this repo:
 
-Requirements
-------------
+## Requirements
 
  - Install Terraform -> https://www.terraform.io/downloads.html
  - Install Google Cloud SDK (Optional) -> https://cloud.google.com/sdk/install
 
-Variables to provisioning
--------------------------
+## Variables to provisioning
 
 In the terraform/variables.tf file, you have to change some variables values:
 
@@ -83,8 +76,7 @@ The credentials json file can be got only when it is created. If you already hav
 If you installed the GCloud SDK you can get a public/private key pair acessing a Google cloud instance with it (gcloud compute ssh GCP_INSTANCE_NAME --zone=YOUR_INSTANCE_ZONE). If not, you'll have to create manually (If you don't have one yet) and send the public key each of your instance.
 
 
-Provisioning the instances
---------------------------
+## Provisioning the instances
 
 This approach create 2 instances to be part of the kubernetes cluster.
 Both are n1-standard-2, that have 2 vCPUs and 7.5 GB of RAM. The kubernetes doesn't start the cluster in a machine with less of 2 vCPUs / cores.
