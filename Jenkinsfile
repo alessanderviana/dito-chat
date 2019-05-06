@@ -71,19 +71,14 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                podTemplate(cloud: 'k8sClusterLabel' ,label: 'docker',
-                containers: [
-                    containerTemplate(name: 'kubectl', image: 'amaceog/kubectl', ttyEnabled: true, command: 'cat')
-                ]) {
                 node('master') {
-                    script {
-                        container('kubectl') {
+                    stage('Update deployments') {
+                        withKubeConfig([credentialsId: 'cd-jenkins', serverUrl: 'https://10.128.15.198:6443']) {
                             sh 'kubectl --namespace=production set image deployment/chat-backend-production ale55ander/backend:latest'
                             sh 'kubectl --namespace=production set image deployment/chat-frontend-production ale55ander/frontend:latest'
                         }
                     }
                 }
-              }
             }
         }
     }
