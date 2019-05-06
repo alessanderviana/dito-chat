@@ -67,8 +67,6 @@ pipeline {
                         }
                     }
                 }
-<<<<<<< HEAD
-=======
             }
         }
         stage('Deploy to Kubernetes') {
@@ -85,7 +83,6 @@ pipeline {
                         }
                     }
                 }
->>>>>>> master
             }
         }
     }
