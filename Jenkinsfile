@@ -73,7 +73,7 @@ pipeline {
             steps {
                 node('master') {
                     script {
-                        withKubeConfig([credentialsId: 'kube-default', serverUrl: 'https://10.128.15.198:6443']) {
+                        withKubeConfig([credentialsId: 'kube-tiller', serverUrl: 'https://10.128.15.198:6443']) {
                             sh 'kubectl --namespace=production set image deployment/chat-backend-production backend=ale55ander/backend:latest'
                             sh 'kubectl --namespace=production set image deployment/chat-frontend-production frontend=ale55ander/frontend:latest'
                         }
