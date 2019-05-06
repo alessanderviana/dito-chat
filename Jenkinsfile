@@ -76,7 +76,7 @@ pipeline {
                     containerTemplate(name: 'kubectl', image: 'amaceog/kubectl', ttyEnabled: true, command: 'cat')
                 ]) {
                 node('master') {
-                    stage('Deploy'){
+                    script {
                         container('kubectl') {
                             sh 'kubectl --namespace=production set image deployment/chat-backend-production ale55ander/backend:latest'
                             sh 'kubectl --namespace=production set image deployment/chat-frontend-production ale55ander/frontend:latest'
