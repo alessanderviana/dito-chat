@@ -105,3 +105,42 @@ When provisioning finish you can connect in the instances by SSH, in one of this
  - gcloud compute ssh ubuntu@INSTANCE_NAME --zone=YOUR_INSTANCE_ZONE --ssh-key-file=/path/to/your/private-key/file
  - ssh ubuntu@INSTANCE_EXTERNAL_IP -i /path/to/your/private-key/file (Your public key have to exist in the instances)
  - in Google Cloud web console, access Compute Engine -> VM instances. Then click in the SSH button.
+
+After you login, we have to sure that the startup script finished. Just run the command: tail -f /var/log/syslog.
+The LOGs will print many lines of the startup-script, after that it'll print some lines of kubernetes images download (Pulling ...), when stop to print Pulling we can continue.
+
+Now we gonna init and configure the kubernetes, the jenkins and the app pods.
+My tests were made with the root user, feel free to try with another user, but in your own risk.
+
+Inside the GCP instance that will be the cluster's master:
+
+ - Turn root (sudo su -),
+ - Clone this repo,
+ - Init the cluster (kubeadm init),
+ - Change to repo dir (cd dito-chat),
+
+At this point I start the screen app, it allow me to open some terminals in the same connection (screen <ENTER>).
+I press CTRL + A + C three times top open three terminals.
+
+ - Run kubernetes/01-kube-cluster-preparing.sh, it will make some configs needed by kubernetes,
+
+I like wait the pods stay available before continue, we can check this with the command: kubectl -n kube-system get pods -owide
+
+ - Run kubernetes/02-kube-cluster-helm.sh, it will install the helm and create the role for the user,
+
+This step is fast.
+
+ - Run kubernetes/03-kube-jenkins-config.sh, it will install and configure our Jenkins pod,
+
+This step take some minutes, you will need a second terminal to check the progress and a third terminal to run the last script. If you don't want to wait, sure.
+To check you can use helm -> helm status jenkins, or kubectl -> kubectl -n cd-jenkins get pods -owide
+
+ - Run kubernetes/04-kube-cluster-environment.sh, it will create the chat app environment,
+
+This step is more long than the Jenkins creation step. To check you can use -> kubectl -n production get pods -owide
+
+When everything is finished you can:
+ - Access the Jenkins -> http://GCP_INSTANCE_EXTERNAL_IP:32000
+ - And access the frontend -> http://GCP_INSTANCE_EXTERNAL_IP:31000
+
+The jenkins user is admin and the password is printed at the end of third script (03-kube-jenkins-config.sh)
