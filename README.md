@@ -105,28 +105,28 @@ My tests were made with the root user, feel free to try with another user, but i
 
 Inside the GCP instance that will be the cluster's master:
 
- - Turn root (sudo su -),
- - Clone this repo,
- - Init the cluster (kubeadm init),
- - Change to repo dir (cd dito-chat),
+ - Turn root -> **sudo su -**,
+ - **Clone this repo**,
+ - Init the cluster -> **kubeadm init**,
+ - Change to repo dir -> **cd dito-chat**,
 
 At this point I start the screen app, it allow me to open some terminals in the same connection (screen <ENTER>).
 I press CTRL + A + C three times top open three terminals.
 
- - Run kubernetes/01-kube-cluster-preparing.sh, it will make some configs needed by kubernetes,
+ - **Run kubernetes/01-kube-cluster-preparing.sh**, it will make some configs needed by kubernetes,
 
 I like wait the pods stay available before continue, we can check this with the command: kubectl -n kube-system get pods -owide
 
- - Run kubernetes/02-kube-cluster-helm.sh, it will install the helm and create the role for the user,
+ - **Run kubernetes/02-kube-cluster-helm.sh**, it will install the helm and create the role for the user,
 
 This step is fast.
 
- - Run kubernetes/03-kube-jenkins-config.sh, it will install and configure our Jenkins pod,
+ - **Run kubernetes/03-kube-jenkins-config.sh**, it will install and configure our Jenkins pod,
 
 This step take some minutes, you will need a second terminal to check the progress and a third terminal to run the last script. If you don't want to wait, sure.
 To check you can use helm -> helm status jenkins, or kubectl -> kubectl -n cd-jenkins get pods -owide
 
- - Run kubernetes/04-kube-cluster-environment.sh, it will create the chat app environment,
+ - **Run kubernetes/04-kube-cluster-environment.sh**, it will create the chat app environment,
 
 This step is more long than the Jenkins creation step. To check you can use -> kubectl -n production get pods -owide
 
