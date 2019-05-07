@@ -65,39 +65,39 @@ To replicate the environment you'll need follow the below steps, after clone thi
 
 In the terraform/variables.tf file, you have to change some variables values:
 
- - gcp_project -> Your Google Cloud project. Ex: my-gcp-project
- - credentials -> The path to your json credential file. EX: /path/to/my/credentials.json"
- - pub_key -> The path to your SSH public key file. Ex: /path/to/my/public-key.pub
- - priv_key -> The path to your SSH private key file. Ex: /path/to/my/private-key"
+ - **gcp_project** -> Your Google Cloud project. Ex: my-gcp-project
+ - **credentials** -> The path to your json credential file. EX: /path/to/my/credentials.json"
+ - **pub_key** -> The path to your SSH public key file. Ex: /path/to/my/public-key.pub
+ - **priv_key** -> The path to your SSH private key file. Ex: /path/to/my/private-key"
 
 
 The credentials json file can be got only when it is created. If you already have a Google Cloud account, this file will be in some folder in your workstation.
 
-If you installed the GCloud SDK you can get a public/private key pair acessing a Google cloud instance with it (gcloud compute ssh GCP_INSTANCE_NAME --zone=YOUR_INSTANCE_ZONE). If not, you'll have to create manually (If you don't have one yet) and send the public key each of your instance.
+If you installed the GCloud SDK you can get a public/private key pair acessing a Google cloud instance with it (**gcloud compute ssh GCP_INSTANCE_NAME --zone=YOUR_INSTANCE_ZONE**). If not, you'll have to create manually (If you don't have one yet) and send the public key each of your instance.
 
 
 ## Provisioning the instances
 
 This approach create 2 instances to be part of the kubernetes cluster.
-Both are n1-standard-2, that have 2 vCPUs and 7.5 GB of RAM. The kubernetes doesn't start the cluster in a machine with less of 2 vCPUs / cores.
-If you wish enlarge the instances number in the cluster, edit the terraform/kube-cluster-node.tf file and change the count variable.
-The cost of this cluster is US$0.0950/h x 2 = US$0.19/h (nineteen cents by hour).
+Both are **n1-standard-2**, that have 2 vCPUs and 7.5 GB of RAM. The kubernetes doesn't start the cluster in a machine with less of 2 vCPUs / cores.
+If you wish enlarge the instances number in the cluster, edit the terraform/kube-cluster-node.tf file and change the **count** variable.
+The cost of this cluster is **US$0.095/h x 2 = US$0.19/h** (nineteen cents by hour).
 
 
 Inside the terraform dir, run:
 
- - terraform init -> to download the Google cloud plugin
- - terraform plan -> if you want see the instances info
- - terraform apply -auto-approve -> to start up the provisioning, without interaction
+ - **terraform init** -> to download the Google cloud plugin
+ - **terraform plan** -> if you want see the instances info
+ - **terraform apply -auto-approve** -> to start up the provisioning, without interaction
 
 
 When provisioning finish you can connect in the instances by SSH, in one of this ways:
 
- - gcloud compute ssh ubuntu@INSTANCE_NAME --zone=YOUR_INSTANCE_ZONE --ssh-key-file=/path/to/your/private-key/file
- - ssh ubuntu@INSTANCE_EXTERNAL_IP -i /path/to/your/private-key/file (Your public key have to exist in the instances)
- - in Google Cloud web console, access Compute Engine -> VM instances. Then click in the SSH button.
+ - **gcloud compute ssh ubuntu@INSTANCE_NAME --zone=YOUR_INSTANCE_ZONE --ssh-key-file=/path/to/your/private-key/file**
+ - **ssh ubuntu@INSTANCE_EXTERNAL_IP -i /path/to/your/private-key/file** (Your public key have to exist in the instances)
+ - in Google Cloud web console, access **Compute Engine -> VM instances**. Then click in the **SSH button**.
 
-After you login, we have to sure that the startup script finished. Just run the command: tail -f /var/log/syslog.
+After you login, we have to sure that the startup script finished. Just run the command: **tail -f /var/log/syslog**.
 The LOGs will print many lines of the startup-script, after that it'll print some lines of kubernetes images download (Pulling ...), when stop to print Pulling we can continue.
 
 Now we gonna init and configure the kubernetes, the jenkins and the app pods.
@@ -131,7 +131,7 @@ To check you can use helm -> helm status jenkins, or kubectl -> kubectl -n cd-je
 This step is more long than the Jenkins creation step. To check you can use -> kubectl -n production get pods -owide
 
 When everything is finished you can:
- - Access the Jenkins -> http://GCP_INSTANCE_EXTERNAL_IP:32000
- - And access the frontend -> http://GCP_INSTANCE_EXTERNAL_IP:31000
+ - **Access the Jenkins** -> http://GCP_INSTANCE_EXTERNAL_IP:32000
+ - And **access the frontend** -> http://GCP_INSTANCE_EXTERNAL_IP:31000
 
 The jenkins user is admin and the password is printed at the end of third script (03-kube-jenkins-config.sh)
